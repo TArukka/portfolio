@@ -89,7 +89,6 @@
     .project-card:hover .card-title{color:var(--accent);}
     .card-arrow{display:inline-block;margin-left:6px;opacity:0;transform:translateX(-4px);transition:all .2s var(--ease);}
     .project-card:hover .card-arrow{opacity:1;transform:translateX(0);}
-    .card-draft{position:absolute;top:8px;left:8px;background:var(--accent);color:white;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;}
 
     /* Sketch */
     .sketch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:4rem;}
@@ -166,97 +165,6 @@
     .fade-in{animation:fadeUp .4s var(--ease-out) both;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 
-    /* ==========================================
-       ADMIN PANEL
-       ========================================== */
-    #admin-panel{position:fixed;inset:0;z-index:9500;display:none;}
-    #admin-panel.open{display:flex;}
-    .admin-overlay{position:absolute;inset:0;background:rgba(28,27,24,.5);backdrop-filter:blur(3px);}
-    .admin-sidebar{position:relative;width:min(560px,100vw);height:100%;background:var(--white);overflow-y:auto;box-shadow:4px 0 40px rgba(0,0,0,.2);display:flex;flex-direction:column;}
-    .admin-header{padding:28px 28px 20px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:10;}
-    .admin-title{font-family:var(--serif);font-size:1.4rem;font-weight:400;}
-    .admin-close{background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--ink-pale);transition:color .2s;padding:4px;}
-    .admin-close:hover{color:var(--ink);}
-    .admin-sync-bar{padding:12px 28px;background:var(--bg2);border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:center;}
-    .sync-btn{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--ink);background:none;cursor:pointer;color:var(--ink);transition:all .2s;white-space:nowrap;}
-    .sync-btn:hover{background:var(--ink);color:var(--white);}
-    .sync-btn.save{background:var(--accent);color:white;border-color:var(--accent);}
-    .sync-btn.save:hover{background:#9e3409;}
-    .sync-status{font-family:var(--mono);font-size:.6rem;color:var(--ink-pale);flex:1;text-align:right;}
-    .admin-tabs{display:flex;border-bottom:1px solid var(--rule);padding:0 28px;}
-    .admin-tab{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--ink-pale);transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
-    .admin-tab.active{color:var(--ink);border-bottom-color:var(--ink);}
-    .admin-body{flex:1;padding:24px 28px;}
-
-    /* Item list */
-    .item-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
-    .item-row{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg);border:1px solid var(--rule);cursor:pointer;transition:border-color .2s;}
-    .item-row:hover{border-color:var(--ink-soft);}
-    .item-row.active-edit{border-color:var(--accent);background:rgba(193,68,14,.04);}
-    .item-row-thumb{width:44px;height:34px;object-fit:cover;background:var(--bg2);flex-shrink:0;}
-    .item-row-info{flex:1;min-width:0;}
-    .item-row-title{font-size:.82rem;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .item-row-sub{font-family:var(--mono);font-size:.6rem;color:var(--ink-pale);margin-top:2px;}
-    .item-row-actions{display:flex;gap:6px;flex-shrink:0;}
-    .row-btn{background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--ink-pale);padding:4px;transition:color .2s;}
-    .row-btn:hover{color:var(--ink);}
-    .row-btn.del:hover{color:var(--accent);}
-    .draft-badge{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;background:var(--rule);color:var(--ink-soft);}
-
-    /* Form */
-    .edit-form{background:var(--bg);border:1px solid var(--rule);padding:20px;margin-bottom:20px;}
-    .form-row{margin-bottom:16px;}
-    .form-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px;}
-    .form-input,.form-textarea,.form-select{width:100%;padding:10px 12px;border:1px solid var(--rule);background:var(--white);font-family:var(--sans);font-size:.85rem;color:var(--ink);transition:border-color .2s;outline:none;}
-    .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--ink);}
-    .form-textarea{min-height:90px;resize:vertical;line-height:1.6;}
-    .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-    .form-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
-    .btn-primary{padding:10px 22px;background:var(--ink);color:var(--white);border:none;cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;transition:background .2s;}
-    .btn-primary:hover{background:var(--accent);}
-    .btn-secondary{padding:10px 22px;background:none;color:var(--ink-soft);border:1px solid var(--rule);cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;}
-    .btn-secondary:hover{border-color:var(--ink);color:var(--ink);}
-    .btn-danger{padding:10px 22px;background:none;color:var(--accent);border:1px solid var(--accent);cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;}
-    .btn-danger:hover{background:var(--accent);color:white;}
-    .add-new-btn{width:100%;padding:12px;border:1px dashed var(--rule);background:none;cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-pale);transition:all .2s;}
-    .add-new-btn:hover{border-color:var(--ink);color:var(--ink);}
-
-    /* Embed list in form */
-    .embed-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
-    .embed-row{display:flex;gap:8px;align-items:center;}
-    .embed-type{width:120px;flex-shrink:0;}
-    .embed-id{flex:1;}
-    .embed-remove{background:none;border:none;cursor:pointer;color:var(--accent);font-size:.9rem;padding:0 4px;}
-    .images-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
-    .image-row{display:flex;gap:8px;align-items:center;}
-    .image-url{flex:1;}
-    .image-remove{background:none;border:none;cursor:pointer;color:var(--accent);font-size:.9rem;padding:0 4px;}
-    .toggle-row{display:flex;align-items:center;gap:12px;}
-    .toggle{position:relative;display:inline-block;width:40px;height:22px;}
-    .toggle input{opacity:0;width:0;height:0;}
-    .slider{position:absolute;cursor:pointer;inset:0;background:var(--rule);transition:.3s;border-radius:22px;}
-    .slider::before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:white;transition:.3s;border-radius:50%;}
-    input:checked+.slider{background:var(--accent2);}
-    input:checked+.slider::before{transform:translateX(18px);}
-
-    /* Reorder arrows */
-    .order-btns{display:flex;flex-direction:column;gap:2px;}
-    .ord-btn{background:none;border:none;cursor:pointer;color:var(--ink-pale);font-size:.7rem;line-height:1;padding:1px 3px;transition:color .2s;}
-    .ord-btn:hover{color:var(--ink);}
-
-    /* Firebase indicator */
-    #fb-indicator{position:fixed;bottom:24px;right:24px;z-index:9400;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
-    .fb-fab{width:48px;height:48px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:all .2s;}
-    .fb-fab:hover{background:var(--accent);transform:scale(1.08);}
-    .fb-fab svg{transition:transform .3s;}
-    .fb-fab.loading svg{animation:spin 1s linear infinite;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-    .fb-toast{background:var(--ink);color:var(--white);font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:8px 16px;opacity:0;transition:opacity .3s;pointer-events:none;text-align:right;max-width:220px;}
-    .fb-toast.show{opacity:1;}
-
-    /* Meta tab */
-    .meta-preview-img{width:100%;aspect-ratio:16/5;object-fit:cover;background:var(--bg2);display:block;margin-top:8px;}
-
     /* Responsive */
     @media(max-width:900px){
       .container{width:92%;}
@@ -283,40 +191,7 @@
   <img id="lightbox-img" src="" alt="">
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="admin-panel">
-  <div class="admin-overlay" onclick="closeAdmin()"></div>
-  <div class="admin-sidebar">
-    <div class="admin-header">
-      <div class="admin-title">Editor</div>
-      <button class="admin-close" onclick="closeAdmin()">✕</button>
-    </div>
-    <div class="admin-sync-bar">
-      <button class="sync-btn" onclick="fbLoad()">↓ Load</button>
-      <button class="sync-btn save" onclick="fbSave()">↑ Save</button>
-      <span class="sync-status" id="sync-status">Not synced</span>
-    </div>
-    <div class="admin-tabs">
-      <button class="admin-tab active" onclick="adminTab('projects')">Projects</button>
-      <button class="admin-tab" onclick="adminTab('blog')">Blog</button>
-      <button class="admin-tab" onclick="adminTab('gallery')">Gallery</button>
-      <button class="admin-tab" onclick="adminTab('sketches')">Sketches</button>
-      <button class="admin-tab" onclick="adminTab('meta')">Site</button>
-    </div>
-    <div class="admin-body" id="admin-body"></div>
-  </div>
-</div>
 
-<!-- FB FAB -->
-<div id="fb-indicator">
-  <div class="fb-toast" id="fb-toast"></div>
-  <button class="fb-fab" id="fb-fab" onclick="toggleAdmin()" title="Open Editor">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-    </svg>
-  </button>
-</div>
 
 <div class="container">
   <!-- HEADER -->
@@ -417,7 +292,7 @@
       <div class="contact-h1 en-only">Let's<br>work<br>together.</div>
       <div class="contact-body pt-only">Disponível para projetos freelance em storyboard, animação e desenvolvimento visual.</div>
       <div class="contact-body en-only">Available for freelance projects in storyboard, animation, and visual development.</div>
-      <a href="mailto:lucca@example.com" class="contact-email">lucca@example.com</a>
+      <a href="/cdn-cgi/l/email-protection#88e4fdebebe9c8edf0e9e5f8e4eda6ebe7e5" class="contact-email"><span class="__cf_email__" data-cfemail="8ae6ffe9e9ebcaeff2ebe7fae6efa4e9e5e7">[email&#160;protected]</span></a>
       <div style="margin-top:32px;">
         <a href="cv.pdf" class="btn-cv" target="_blank">
           <span class="pt-only">Baixar CV</span><span class="en-only">Download CV</span>
@@ -435,7 +310,7 @@
   </div>
 </div><!-- /container -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function() {
   'use strict';
 
@@ -455,9 +330,6 @@
     },
     currentLang: 'pt',
     previousView: 'home',
-    adminTab: 'projects',
-    editingId: null,  // id of item being edited in admin
-    isAdminOpen: false
   };
 
   // ============================================================
@@ -513,25 +385,33 @@
     setFabLoading(true);
     fetch(FB.url())
       .then(function(r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status + ' — check Firestore rules (allow read)');
+        // 404 = document doesn't exist yet (first run) — treat as empty
+        if (r.status === 404) return null;
+        if (!r.ok) return r.json().then(function(e) {
+          throw new Error(e.error ? e.error.message : 'HTTP ' + r.status + ' — check Firestore rules');
+        });
         return r.json();
       })
       .then(function(doc) {
+        if (!doc) {
+          // First time — no data yet, just show a helpful message
+          setSyncStatus('Novo portfolio — adicione conteúdo e clique Save ↑', '#2D7A2D');
+          toast('✓ Pronto! Adicione projetos e salve.');
+                return;
+        }
         var loaded = docToData(doc);
-        // Merge carefully
         if (loaded.projects) APP.data.projects = loaded.projects;
         if (loaded.blog)     APP.data.blog     = loaded.blog;
         if (loaded.gallery)  APP.data.gallery  = loaded.gallery;
         if (loaded.sketches) APP.data.sketches = loaded.sketches;
         if (loaded.meta)     APP.data.meta     = Object.assign({}, APP.data.meta, loaded.meta);
         renderAll();
-        renderAdminBody();
-        var ts = loaded.updatedAt ? new Date(loaded.updatedAt).toLocaleString('pt-BR') : 'now';
+            var ts = loaded.updatedAt ? new Date(loaded.updatedAt).toLocaleString('pt-BR') : 'now';
         setSyncStatus('Loaded · ' + ts, '#2D7A2D');
         toast('✓ Portfolio carregado');
       })
       .catch(function(e) {
-        setSyncStatus('Load error: ' + e.message, '#C1440E');
+        setSyncStatus('Erro: ' + e.message, '#C1440E');
         toast('✗ ' + e.message);
       })
       .finally(function() { setFabLoading(false); });
@@ -563,29 +443,11 @@
     .finally(function() { setFabLoading(false); });
   };
 
-  function setSyncStatus(msg, color) {
-    var el = document.getElementById('sync-status');
-    if (el) { el.textContent = msg; el.style.color = color || 'var(--ink-pale)'; }
-  }
+  function setSyncStatus() {}
 
-  function setFabLoading(on) {
-    var fab = document.getElementById('fb-fab');
-    if (fab) { if (on) fab.classList.add('loading'); else fab.classList.remove('loading'); }
-  }
+  function setFabLoading() {}
 
-  function toast(msg) {
-    var el = document.getElementById('fb-toast');
-    if (!el) return;
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(el._t);
-    el._t = setTimeout(function() { el.classList.remove('show'); }, 3000);
-  }
-
-  // ============================================================
-  // ID GENERATOR
-  // ============================================================
-  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+  function toast() {}
 
   // ============================================================
   // LANG
@@ -677,13 +539,12 @@
     grid.innerHTML = '';
     var list = (APP.data.projects || []).slice().sort(function(a,b){ return (a.order||0)-(b.order||0); });
     list.forEach(function(p) {
-      if (!p.published && !APP.isAdminOpen) return; // hide drafts from public
+      if (!p.published) return;
       var card = document.createElement('div');
       card.className = 'project-card';
       card.innerHTML =
         '<div class="card-thumb-wrap">' +
           '<img class="card-thumb" src="' + (p.thumb || 'https://via.placeholder.com/400x300') + '" alt="' + esc(p.title||'') + '" onerror="this.src=\'https://via.placeholder.com/400x300\'">' +
-          (!p.published ? '<div class="card-draft">Draft</div>' : '') +
         '</div>' +
         '<div class="card-tag">' + esc(p.tag||'') + '</div>' +
         '<div class="card-title">' + esc(p.title||'Sem título') + '<span class="card-arrow">→</span></div>';
@@ -715,13 +576,13 @@
     grid.innerHTML = '';
     var list = (APP.data.blog || []).slice().sort(function(a,b){ return (a.order||0)-(b.order||0); });
     list.forEach(function(p) {
-      if (!p.published && !APP.isAdminOpen) return;
+      if (!p.published) return;
       var item = document.createElement('div');
       item.className = 'blog-item';
       item.innerHTML =
         '<span class="blog-date">' + esc(p.date||'') + '</span>' +
         (p.thumb ? '<img class="blog-thumb" src="' + esc(p.thumb) + '" alt="" onerror="this.style.display=\'none\'">' : '') +
-        '<div class="blog-title">' + esc(p.title||'Sem título') + (!p.published ? ' <span class="draft-badge">draft</span>':'') + '</div>' +
+        '<div class="blog-title">' + esc(p.title||'Sem título') + '</div>' +
         '<div class="blog-excerpt">' + esc(p.excerpt||'') + '</div>';
       item.onclick = function() { APP.previousView = 'blog'; openDetail(p.id, 'blog'); };
       grid.appendChild(item);
@@ -745,9 +606,9 @@
 
   function updateCounts() {
     var sets = [
-      { id:'proj-count',    items: (APP.data.projects||[]).filter(function(p){return p.published||APP.isAdminOpen;}) },
+      { id:'proj-count',    items: (APP.data.projects||[]).filter(function(p){return p.published;}) },
       { id:'sketch-count',  items: APP.data.sketches||[] },
-      { id:'blog-count',    items: (APP.data.blog||[]).filter(function(p){return p.published||APP.isAdminOpen;}) }
+      { id:'blog-count',    items: (APP.data.blog||[]).filter(function(p){return p.published;}) }
     ];
     sets.forEach(function(s) {
       var el = document.getElementById(s.id);
@@ -837,412 +698,9 @@
     document.getElementById('lightbox').classList.remove('open');
   };
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') { closeLightbox(); if(APP.isAdminOpen) closeAdmin(); }
+    if (e.key === 'Escape') closeLightbox();
   });
 
-  // ============================================================
-  // ADMIN PANEL
-  // ============================================================
-  window.toggleAdmin = function() {
-    if (APP.isAdminOpen) closeAdmin(); else openAdmin();
-  };
-  window.openAdmin = function() {
-    APP.isAdminOpen = true;
-    document.getElementById('admin-panel').classList.add('open');
-    renderAdminBody();
-    renderProjects(); // show drafts
-    renderBlog();
-    updateCounts();
-  };
-  window.closeAdmin = function() {
-    APP.isAdminOpen = false;
-    document.getElementById('admin-panel').classList.remove('open');
-    APP.editingId = null;
-    renderProjects();
-    renderBlog();
-    updateCounts();
-  };
-
-  window.adminTab = function(tab) {
-    APP.adminTab = tab;
-    APP.editingId = null;
-    document.querySelectorAll('.admin-tab').forEach(function(t){ t.classList.remove('active'); });
-    var tabs = document.querySelectorAll('.admin-tab');
-    var tabNames = ['projects','blog','gallery','sketches','meta'];
-    var idx = tabNames.indexOf(tab);
-    if (tabs[idx]) tabs[idx].classList.add('active');
-    renderAdminBody();
-  };
-
-  function renderAdminBody() {
-    var body = document.getElementById('admin-body');
-    if (!body) return;
-    if (APP.adminTab === 'projects') body.innerHTML = buildProjectsTab();
-    if (APP.adminTab === 'blog')     body.innerHTML = buildBlogTab();
-    if (APP.adminTab === 'gallery')  body.innerHTML = buildGalleryTab();
-    if (APP.adminTab === 'sketches') body.innerHTML = buildSketchesTab();
-    if (APP.adminTab === 'meta')     body.innerHTML = buildMetaTab();
-  }
-
-  // ---- ESC helper ----
-  function esc(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-  function val(s) { return String(s || ''); }
-
-  // ============================================================
-  // PROJECTS TAB
-  // ============================================================
-  function buildProjectsTab() {
-    var projects = APP.data.projects || [];
-    var sorted = projects.slice().sort(function(a,b){ return (a.order||0)-(b.order||0); });
-    var html = '<div class="item-list">';
-    sorted.forEach(function(p, i) {
-      var active = APP.editingId === p.id ? ' active-edit' : '';
-      html += '<div class="item-row' + active + '">';
-      html += '<img class="item-row-thumb" src="' + esc(p.thumb||'https://via.placeholder.com/44x34') + '" onerror="this.src=\'https://via.placeholder.com/44x34\'">';
-      html += '<div class="item-row-info" onclick="adminEditProject(\'' + p.id + '\')">';
-      html += '<div class="item-row-title">' + esc(p.title||'Sem título') + (!p.published?'<span class="draft-badge" style="margin-left:6px">draft</span>':'') + '</div>';
-      html += '<div class="item-row-sub">' + esc(p.tag||'') + (p.year?' · '+esc(p.year):'') + (p.embeds&&p.embeds.length?' · '+p.embeds.length+' embed(s)':'') + (p.images&&p.images.length?' · '+p.images.length+' img(s)':'') + '</div>';
-      html += '</div>';
-      html += '<div class="order-btns"><button class="ord-btn" onclick="projMove(\'' + p.id + '\',-1)">▲</button><button class="ord-btn" onclick="projMove(\'' + p.id + '\',1)">▼</button></div>';
-      html += '<div class="item-row-actions">';
-      html += '<button class="row-btn del" onclick="projDelete(\'' + p.id + '\')" title="Delete">✕</button>';
-      html += '</div>';
-      html += '</div>';
-    });
-    html += '</div>';
-    html += '<button class="add-new-btn" onclick="adminNewProject()">+ Novo Projeto</button>';
-
-    if (APP.editingId) {
-      var p = (APP.data.projects||[]).find(function(x){ return x.id===APP.editingId; });
-      if (p) html += buildProjectForm(p);
-    }
-    return html;
-  }
-
-  function buildProjectForm(p) {
-    var embedsHtml = '';
-    (p.embeds||[]).forEach(function(e, i) {
-      embedsHtml += '<div class="embed-row">';
-      embedsHtml += '<select class="form-select embed-type" style="width:130px" onchange="projEmbedChange(\'' + p.id + '\',' + i + ',\'type\',this.value)">';
-      ['youtube','vimeo','speakerdeck'].forEach(function(t) {
-        embedsHtml += '<option value="'+t+'"'+(e.type===t?' selected':'')+'>'+t+'</option>';
-      });
-      embedsHtml += '</select>';
-      embedsHtml += '<input class="form-input embed-id" placeholder="Video / Deck ID" value="' + esc(e.id||'') + '" oninput="projEmbedChange(\'' + p.id + '\',' + i + ',\'id\',this.value)">';
-      embedsHtml += '<button class="embed-remove" onclick="projEmbedRemove(\'' + p.id + '\',' + i + ')">✕</button>';
-      embedsHtml += '</div>';
-    });
-
-    var imgsHtml = '';
-    (p.images||[]).forEach(function(src, i) {
-      imgsHtml += '<div class="image-row">';
-      imgsHtml += '<input class="form-input image-url" placeholder="https://..." value="' + esc(src||'') + '" oninput="projImageChange(\'' + p.id + '\',' + i + ',this.value)">';
-      imgsHtml += '<button class="image-remove" onclick="projImageRemove(\'' + p.id + '\',' + i + ')">✕</button>';
-      imgsHtml += '</div>';
-    });
-
-    return '<div class="edit-form" id="project-form-' + p.id + '">' +
-      '<div class="form-row-2">' +
-        '<div class="form-row"><label class="form-label">Título</label><input class="form-input" value="' + esc(p.title||'') + '" oninput="projField(\'' + p.id + '\',\'title\',this.value)"></div>' +
-        '<div class="form-row"><label class="form-label">Tag / Categoria</label><input class="form-input" value="' + esc(p.tag||'') + '" oninput="projField(\'' + p.id + '\',\'tag\',this.value)"></div>' +
-      '</div>' +
-      '<div class="form-row-2">' +
-        '<div class="form-row"><label class="form-label">Ano</label><input class="form-input" value="' + esc(p.year||'') + '" oninput="projField(\'' + p.id + '\',\'year\',this.value)"></div>' +
-        '<div class="form-row"><label class="form-label">Cliente</label><input class="form-input" value="' + esc(p.client||'') + '" oninput="projField(\'' + p.id + '\',\'client\',this.value)"></div>' +
-      '</div>' +
-      '<div class="form-row"><label class="form-label">Função / Role</label><input class="form-input" value="' + esc(p.role||'') + '" oninput="projField(\'' + p.id + '\',\'role\',this.value)"></div>' +
-      '<div class="form-row"><label class="form-label">Thumbnail URL</label><input class="form-input" placeholder="https://..." value="' + esc(p.thumb||'') + '" oninput="projField(\'' + p.id + '\',\'thumb\',this.value)"></div>' +
-      '<div class="form-row"><label class="form-label">Descrição curta</label><textarea class="form-textarea" oninput="projField(\'' + p.id + '\',\'description\',this.value)">' + esc(p.description||'') + '</textarea></div>' +
-      '<div class="form-row"><label class="form-label">Texto completo / Body</label><textarea class="form-textarea" style="min-height:120px" oninput="projField(\'' + p.id + '\',\'text\',this.value)">' + esc(p.text||'') + '</textarea></div>' +
-      '<div class="form-row"><label class="form-label">Vídeos &amp; Slides (embeds)</label>' +
-        '<div class="embed-list" id="embed-list-' + p.id + '">' + embedsHtml + '</div>' +
-        '<button class="btn-secondary" style="margin-top:4px;font-size:.6rem;padding:6px 14px" onclick="projEmbedAdd(\'' + p.id + '\')">+ Adicionar embed</button>' +
-      '</div>' +
-      '<div class="form-row"><label class="form-label">Imagens (URLs)</label>' +
-        '<div class="images-list" id="images-list-' + p.id + '">' + imgsHtml + '</div>' +
-        '<button class="btn-secondary" style="margin-top:4px;font-size:.6rem;padding:6px 14px" onclick="projImageAdd(\'' + p.id + '\')">+ Adicionar imagem</button>' +
-      '</div>' +
-      '<div class="form-row"><div class="toggle-row"><label class="toggle"><input type="checkbox"' + (p.published?' checked':'') + ' onchange="projField(\'' + p.id + '\',\'published\',this.checked)"><span class="slider"></span></label><span class="form-label" style="margin-bottom:0">Publicado</span></div></div>' +
-      '<div class="form-actions">' +
-        '<button class="btn-primary" onclick="projSaveDone()">✓ Salvar &amp; Fechar</button>' +
-        '<button class="btn-secondary" onclick="APP.editingId=null;renderAdminBody()">Fechar</button>' +
-        '<button class="btn-danger" onclick="projDelete(\'' + p.id + '\')">Excluir</button>' +
-      '</div>' +
-    '</div>';
-  }
-
-  window.adminEditProject = function(id) {
-    APP.editingId = APP.editingId === id ? null : id;
-    renderAdminBody();
-    setTimeout(function(){ var f=document.getElementById('project-form-'+id); if(f)f.scrollIntoView({behavior:'smooth',block:'start'}); },100);
-  };
-
-  window.adminNewProject = function() {
-    var p = { id: uid(), title: 'Novo Projeto', tag: '', thumb: '', description: '', text: '', year: new Date().getFullYear()+'', client: '', role: '', embeds: [], images: [], published: false, order: (APP.data.projects||[]).length };
-    if (!APP.data.projects) APP.data.projects = [];
-    APP.data.projects.push(p);
-    APP.editingId = p.id;
-    renderAdminBody();
-    setTimeout(function(){ var f=document.getElementById('project-form-'+p.id); if(f)f.scrollIntoView({behavior:'smooth',block:'start'}); },100);
-  };
-
-  window.projField = function(id, field, value) {
-    var p = (APP.data.projects||[]).find(function(x){ return x.id===id; });
-    if (p) { p[field] = value; if (field==='thumb'||field==='title'||field==='tag'||field==='published') { renderProjects(); renderAdminBody(); } }
-  };
-
-  window.projEmbedChange = function(id, idx, field, value) {
-    var p = (APP.data.projects||[]).find(function(x){ return x.id===id; });
-    if (p && p.embeds && p.embeds[idx]) p.embeds[idx][field] = value;
-  };
-  window.projEmbedAdd = function(id) {
-    var p = (APP.data.projects||[]).find(function(x){ return x.id===id; });
-    if (!p) return;
-    if (!p.embeds) p.embeds = [];
-    p.embeds.push({ type: 'youtube', id: '' });
-    renderAdminBody();
-  };
-  window.projEmbedRemove = function(id, idx) {
-    var p = (APP.data.projects||[]).find(function(x){ return x.id===id; });
-    if (p && p.embeds) { p.embeds.splice(idx,1); renderAdminBody(); }
-  };
-  window.projImageChange = function(id, idx, value) {
-    var p = (APP.data.projects||[]).find(function(x){ return x.id===id; });
-    if (p && p.images) p.images[idx] = value;
-  };
-  window.projImageAdd = function(id) {
-    var p = (APP.data.projects||[]).find(function(x){ return x.id===id; });
-    if (!p) return;
-    if (!p.images) p.images = [];
-    p.images.push('');
-    renderAdminBody();
-  };
-  window.projImageRemove = function(id, idx) {
-    var p = (APP.data.projects||[]).find(function(x){ return x.id===id; });
-    if (p && p.images) { p.images.splice(idx,1); renderAdminBody(); }
-  };
-  window.projDelete = function(id) {
-    if (!confirm('Excluir este projeto?')) return;
-    APP.data.projects = (APP.data.projects||[]).filter(function(x){ return x.id!==id; });
-    APP.editingId = null;
-    renderProjects(); renderAdminBody();
-  };
-  window.projMove = function(id, dir) {
-    var list = APP.data.projects || [];
-    var sorted = list.slice().sort(function(a,b){ return (a.order||0)-(b.order||0); });
-    var idx = sorted.findIndex(function(x){ return x.id===id; });
-    var swapIdx = idx + dir;
-    if (swapIdx < 0 || swapIdx >= sorted.length) return;
-    var tmp = sorted[idx].order; sorted[idx].order = sorted[swapIdx].order; sorted[swapIdx].order = tmp;
-    // Renumber to be safe
-    sorted.forEach(function(p,i){ p.order = i; });
-    renderProjects(); renderAdminBody();
-  };
-  window.projSaveDone = function() { APP.editingId = null; renderProjects(); renderAdminBody(); };
-
-  // ============================================================
-  // BLOG TAB
-  // ============================================================
-  function buildBlogTab() {
-    var list = (APP.data.blog||[]).slice().sort(function(a,b){ return (a.order||0)-(b.order||0); });
-    var html = '<div class="item-list">';
-    list.forEach(function(p) {
-      var active = APP.editingId === p.id ? ' active-edit' : '';
-      html += '<div class="item-row' + active + '">';
-      html += p.thumb ? '<img class="item-row-thumb" src="'+esc(p.thumb)+'" onerror="this.src=\'https://via.placeholder.com/44x34\'">' : '<div class="item-row-thumb" style="background:var(--bg2)"></div>';
-      html += '<div class="item-row-info" onclick="adminEditBlog(\'' + p.id + '\')">';
-      html += '<div class="item-row-title">' + esc(p.title||'Sem título') + (!p.published?'<span class="draft-badge" style="margin-left:6px">draft</span>':'') + '</div>';
-      html += '<div class="item-row-sub">' + esc(p.date||'') + '</div>';
-      html += '</div>';
-      html += '<div class="order-btns"><button class="ord-btn" onclick="blogMove(\'' + p.id + '\',-1)">▲</button><button class="ord-btn" onclick="blogMove(\'' + p.id + '\',1)">▼</button></div>';
-      html += '<button class="row-btn del" onclick="blogDelete(\'' + p.id + '\')" title="Delete">✕</button>';
-      html += '</div>';
-    });
-    html += '</div>';
-    html += '<button class="add-new-btn" onclick="adminNewBlog()">+ Novo Post</button>';
-    if (APP.editingId) {
-      var p = (APP.data.blog||[]).find(function(x){ return x.id===APP.editingId; });
-      if (p) html += buildBlogForm(p);
-    }
-    return html;
-  }
-
-  function buildBlogForm(p) {
-    return '<div class="edit-form" id="blog-form-' + p.id + '">' +
-      '<div class="form-row"><label class="form-label">Título</label><input class="form-input" value="' + esc(p.title||'') + '" oninput="blogField(\'' + p.id + '\',\'title\',this.value)"></div>' +
-      '<div class="form-row-2">' +
-        '<div class="form-row"><label class="form-label">Data</label><input class="form-input" type="date" value="' + esc(p.date||'') + '" oninput="blogField(\'' + p.id + '\',\'date\',this.value)"></div>' +
-        '<div class="form-row"><label class="form-label">Tag</label><input class="form-input" value="' + esc(p.tag||'') + '" oninput="blogField(\'' + p.id + '\',\'tag\',this.value)"></div>' +
-      '</div>' +
-      '<div class="form-row"><label class="form-label">Thumb URL</label><input class="form-input" placeholder="https://..." value="' + esc(p.thumb||'') + '" oninput="blogField(\'' + p.id + '\',\'thumb\',this.value)"></div>' +
-      '<div class="form-row"><label class="form-label">Excerpt / Subtítulo</label><textarea class="form-textarea" oninput="blogField(\'' + p.id + '\',\'excerpt\',this.value)">' + esc(p.excerpt||'') + '</textarea></div>' +
-      '<div class="form-row"><label class="form-label">Conteúdo completo</label><textarea class="form-textarea" style="min-height:160px" oninput="blogField(\'' + p.id + '\',\'content\',this.value)">' + esc(p.content||'') + '</textarea></div>' +
-      '<div class="form-row"><div class="toggle-row"><label class="toggle"><input type="checkbox"' + (p.published?' checked':'') + ' onchange="blogField(\'' + p.id + '\',\'published\',this.checked)"><span class="slider"></span></label><span class="form-label" style="margin-bottom:0">Publicado</span></div></div>' +
-      '<div class="form-actions">' +
-        '<button class="btn-primary" onclick="blogSaveDone()">✓ Salvar &amp; Fechar</button>' +
-        '<button class="btn-secondary" onclick="APP.editingId=null;renderAdminBody()">Fechar</button>' +
-        '<button class="btn-danger" onclick="blogDelete(\'' + p.id + '\')">Excluir</button>' +
-      '</div>' +
-    '</div>';
-  }
-
-  window.adminEditBlog = function(id) { APP.editingId = APP.editingId===id?null:id; renderAdminBody(); };
-  window.adminNewBlog  = function() {
-    var p = { id:uid(), title:'Novo Post', date:'', tag:'', thumb:'', excerpt:'', content:'', published:false, order:(APP.data.blog||[]).length };
-    if (!APP.data.blog) APP.data.blog=[];
-    APP.data.blog.push(p);
-    APP.editingId = p.id;
-    renderAdminBody();
-  };
-  window.blogField = function(id,field,value) {
-    var p=(APP.data.blog||[]).find(function(x){return x.id===id;});
-    if(p){ p[field]=value; if(field==='title'||field==='published'||field==='thumb'||field==='date'){renderBlog();renderAdminBody();}}
-  };
-  window.blogDelete = function(id) {
-    if(!confirm('Excluir este post?'))return;
-    APP.data.blog=(APP.data.blog||[]).filter(function(x){return x.id!==id;});
-    APP.editingId=null; renderBlog(); renderAdminBody();
-  };
-  window.blogMove = function(id,dir) {
-    var sorted=(APP.data.blog||[]).slice().sort(function(a,b){return(a.order||0)-(b.order||0);});
-    var idx=sorted.findIndex(function(x){return x.id===id;});
-    var si=idx+dir; if(si<0||si>=sorted.length)return;
-    var tmp=sorted[idx].order; sorted[idx].order=sorted[si].order; sorted[si].order=tmp;
-    sorted.forEach(function(p,i){p.order=i;}); renderBlog(); renderAdminBody();
-  };
-  window.blogSaveDone = function(){APP.editingId=null;renderBlog();renderAdminBody();};
-
-  // ============================================================
-  // GALLERY TAB
-  // ============================================================
-  function buildGalleryTab() {
-    var list = APP.data.gallery || [];
-    var html = '<div class="item-list">';
-    list.forEach(function(a, i) {
-      var active = APP.editingId === a.id ? ' active-edit' : '';
-      html += '<div class="item-row' + active + '">';
-      html += '<img class="item-row-thumb" src="' + esc(a.src||'https://via.placeholder.com/44x34') + '" onerror="this.src=\'https://via.placeholder.com/44x34\'">';
-      html += '<div class="item-row-info" onclick="adminEditGallery(\'' + a.id + '\')">';
-      html += '<div class="item-row-title">' + esc(a.caption||'Sem legenda') + '</div>';
-      html += '<div class="item-row-sub">' + esc((a.src||'').slice(0,48)) + '</div>';
-      html += '</div>';
-      html += '<div class="order-btns"><button class="ord-btn" onclick="galleryMove('+i+',-1)">▲</button><button class="ord-btn" onclick="galleryMove('+i+',1)">▼</button></div>';
-      html += '<button class="row-btn del" onclick="galleryDelete(\'' + a.id + '\')" title="Delete">✕</button>';
-      html += '</div>';
-      if (APP.editingId === a.id) {
-        html += '<div class="edit-form">' +
-          '<div class="form-row"><label class="form-label">URL da imagem</label><input class="form-input" value="' + esc(a.src||'') + '" oninput="galleryField(\'' + a.id + '\',\'src\',this.value)"></div>' +
-          '<div class="form-row"><label class="form-label">Legenda</label><input class="form-input" value="' + esc(a.caption||'') + '" oninput="galleryField(\'' + a.id + '\',\'caption\',this.value)"></div>' +
-          '<div class="form-actions"><button class="btn-primary" onclick="APP.editingId=null;renderGallery();renderAdminBody()">✓ Ok</button></div>' +
-        '</div>';
-      }
-    });
-    html += '</div>';
-    html += '<button class="add-new-btn" onclick="adminNewGallery()">+ Nova Imagem</button>';
-    return html;
-  }
-  window.adminEditGallery = function(id){APP.editingId=APP.editingId===id?null:id;renderAdminBody();};
-  window.adminNewGallery  = function(){
-    var a={id:uid(),src:'',caption:''};
-    if(!APP.data.gallery)APP.data.gallery=[];
-    APP.data.gallery.push(a);
-    APP.editingId=a.id; renderAdminBody();
-  };
-  window.galleryField = function(id,field,value){
-    var a=(APP.data.gallery||[]).find(function(x){return x.id===id;});
-    if(a){a[field]=value;}
-  };
-  window.galleryDelete = function(id){
-    if(!confirm('Excluir?'))return;
-    APP.data.gallery=(APP.data.gallery||[]).filter(function(x){return x.id!==id;});
-    APP.editingId=null;renderGallery();renderAdminBody();
-  };
-  window.galleryMove = function(idx,dir){
-    var list=APP.data.gallery||[];
-    var si=idx+dir; if(si<0||si>=list.length)return;
-    var tmp=list[idx];list[idx]=list[si];list[si]=tmp;
-    renderGallery();renderAdminBody();
-  };
-
-  // ============================================================
-  // SKETCHES TAB
-  // ============================================================
-  function buildSketchesTab() {
-    var list = APP.data.sketches || [];
-    var html = '<div class="item-list">';
-    list.forEach(function(s, i) {
-      var active = APP.editingId === s.id ? ' active-edit' : '';
-      html += '<div class="item-row' + active + '">';
-      html += '<img class="item-row-thumb" src="' + esc(s.src||'https://via.placeholder.com/44x44') + '" onerror="this.src=\'https://via.placeholder.com/44x44\'" style="aspect-ratio:1;object-fit:cover">';
-      html += '<div class="item-row-info" onclick="adminEditSketch(\'' + s.id + '\')">';
-      html += '<div class="item-row-title">' + esc(s.alt||'Sketch '+(i+1)) + '</div>';
-      html += '<div class="item-row-sub">' + esc((s.src||'').slice(0,48)) + '</div>';
-      html += '</div>';
-      html += '<div class="order-btns"><button class="ord-btn" onclick="sketchMove('+i+',-1)">▲</button><button class="ord-btn" onclick="sketchMove('+i+',1)">▼</button></div>';
-      html += '<button class="row-btn del" onclick="sketchDelete(\'' + s.id + '\')" title="Delete">✕</button>';
-      html += '</div>';
-      if (APP.editingId === s.id) {
-        html += '<div class="edit-form">' +
-          '<div class="form-row"><label class="form-label">URL da imagem</label><input class="form-input" value="' + esc(s.src||'') + '" oninput="sketchField(\'' + s.id + '\',\'src\',this.value)"></div>' +
-          '<div class="form-row"><label class="form-label">Alt text</label><input class="form-input" value="' + esc(s.alt||'') + '" oninput="sketchField(\'' + s.id + '\',\'alt\',this.value)"></div>' +
-          '<div class="form-actions"><button class="btn-primary" onclick="APP.editingId=null;renderSketches();renderAdminBody()">✓ Ok</button></div>' +
-        '</div>';
-      }
-    });
-    html += '</div>';
-    html += '<button class="add-new-btn" onclick="adminNewSketch()">+ Novo Sketch</button>';
-    return html;
-  }
-  window.adminEditSketch = function(id){APP.editingId=APP.editingId===id?null:id;renderAdminBody();};
-  window.adminNewSketch  = function(){
-    var s={id:uid(),src:'',alt:''};
-    if(!APP.data.sketches)APP.data.sketches=[];
-    APP.data.sketches.push(s);
-    APP.editingId=s.id;renderAdminBody();
-  };
-  window.sketchField = function(id,field,value){
-    var s=(APP.data.sketches||[]).find(function(x){return x.id===id;});
-    if(s)s[field]=value;
-  };
-  window.sketchDelete = function(id){
-    if(!confirm('Excluir?'))return;
-    APP.data.sketches=(APP.data.sketches||[]).filter(function(x){return x.id!==id;});
-    APP.editingId=null;renderSketches();renderAdminBody();
-  };
-  window.sketchMove = function(idx,dir){
-    var list=APP.data.sketches||[];
-    var si=idx+dir;if(si<0||si>=list.length)return;
-    var tmp=list[idx];list[idx]=list[si];list[si]=tmp;
-    renderSketches();renderAdminBody();
-  };
-
-  // ============================================================
-  // META / SITE TAB
-  // ============================================================
-  function buildMetaTab() {
-    var m = APP.data.meta || {};
-    var he = m.homeEmbed || {};
-    return '<div class="edit-form">' +
-      '<div class="form-row"><label class="form-label">Banner URL</label>' +
-        '<input class="form-input" value="' + esc(m.banner||'') + '" oninput="metaField(\'banner\',this.value)">' +
-        (m.banner ? '<img class="meta-preview-img" src="' + esc(m.banner) + '" onerror="this.style.display=\'none\'">' : '') +
-      '</div>' +
-      '<div class="form-row"><label class="form-label">Embed na Home (tipo)</label>' +
-        '<select class="form-select" onchange="metaEmbedType(this.value)">' +
-          '<option value=""' + (!he.type?' selected':'') + '>Nenhum</option>' +
-          ['youtube','vimeo','speakerdeck'].map(function(t){ return '<option value="'+t+'"'+(he.type===t?' selected':'')+'>'+t+'</option>'; }).join('') +
-        '</select>' +
-      '</div>' +
-      (he.type ? '<div class="form-row"><label class="form-label">ID do embed</label><input class="form-input" placeholder="Video ID / Deck ID" value="' + esc(he.id||'') + '" oninput="metaEmbedId(this.value)"></div>' : '') +
-      '<div class="form-actions"><button class="btn-primary" onclick="metaSave()">✓ Aplicar</button></div>' +
-    '</div>';
-  }
-  window.metaField = function(field,value){ if(!APP.data.meta)APP.data.meta={}; APP.data.meta[field]=value; };
-  window.metaEmbedType = function(value){ if(!APP.data.meta)APP.data.meta={}; if(!APP.data.meta.homeEmbed)APP.data.meta.homeEmbed={}; APP.data.meta.homeEmbed.type=value; renderAdminBody(); };
-  window.metaEmbedId   = function(value){ if(!APP.data.meta.homeEmbed)APP.data.meta.homeEmbed={}; APP.data.meta.homeEmbed.id=value; };
-  window.metaSave = function(){ renderMeta(); renderAdminBody(); toast('Site meta atualizado'); };
 
   // ============================================================
   // ISSUE DATE
@@ -1250,16 +708,4 @@
   var dateEl = document.getElementById('issue-date');
   if (dateEl) dateEl.textContent = new Date().toLocaleDateString('pt-BR', { year:'numeric', month:'long' });
 
-  // ============================================================
-  // INITIAL LOAD
-  // ============================================================
-  goHome();
-  renderAll();
-
-  // Auto-load from Firebase on every page load
-  fbLoad();
-
-})();
-</script>
-</body>
-</html>
+  // ===========================
