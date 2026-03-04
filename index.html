@@ -897,7 +897,7 @@
                 <div class="contact-body en-only">
                     Available for freelance projects in storyboard, animation, and visual development.
                 </div>
-                <a href="mailto:luccatuelher@yahoo.com" class="contact-email">luccatuelher@yahoo.com</a>
+                <a href="/cdn-cgi/l/email-protection#d1bda4b2b2b0a5a4b4bdb9b4a391a8b0b9bebeffb2bebc" class="contact-email"><span class="__cf_email__" data-cfemail="c4a8b1a7a7a5b0b1a1a8aca1b684bda5acababeaa7aba9">[email&#160;protected]</span></a>
                 <div style="margin-top: 32px;">
                     <a href="cv.pdf" class="btn-cv" target="_blank">
                         <span class="pt-only">Baixar CV</span>
@@ -920,7 +920,31 @@
     <!-- EDITOR PANEL -->
     
 
-    <!-- GIST SYNC MODAL -->
+    <!-- FIREBASE SYNC MODAL -->
+    <div id="fb-sync-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(28,27,24,0.7);backdrop-filter:blur(4px);justify-content:center;align-items:center;">
+        <div style="background:var(--white);width:min(480px,92vw);padding:40px;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.25);">
+            <button onclick="closeFbModal()" style="position:absolute;top:16px;right:18px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--ink-pale);">✕</button>
+            <div style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-pale);margin-bottom:6px;">Firebase</div>
+            <div style="font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:24px;color:var(--ink);">Sync Portfolio</div>
+
+            <div id="fb-status" style="font-family:var(--mono);font-size:0.72rem;padding:12px 16px;background:var(--bg2);margin-bottom:24px;min-height:40px;color:var(--ink-soft);border-left:3px solid var(--rule);white-space:pre-wrap;">Pronto.</div>
+
+            <div style="display:flex;flex-direction:column;gap:12px;">
+                <button onclick="fbLoad()" style="padding:14px 24px;background:var(--ink);color:var(--white);border:none;cursor:pointer;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;transition:background 0.2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--ink)'">
+                    ↓ Carregar do Firebase
+                </button>
+                <button onclick="fbSave()" style="padding:14px 24px;background:var(--accent);color:var(--white);border:none;cursor:pointer;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;transition:background 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                    ↑ Salvar no Firebase
+                </button>
+                <button onclick="fbAutoLoad()" style="padding:10px 24px;background:none;border:1px solid var(--rule);cursor:pointer;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--rule)'">
+                    Recarregar Página com Firebase
+                </button>
+            </div>
+            <div style="margin-top:20px;font-family:var(--mono);font-size:0.6rem;color:var(--ink-pale);line-height:1.6;">
+                Projeto: <strong>webapps-cbefa</strong> · Firestore · Coleção: <em>portfolio</em>
+            </div>
+        </div>
+    </div>
     
 
     
@@ -929,7 +953,7 @@
     
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         (function() {
             // Inject free-block static styles
             var s = document.createElement('style');
@@ -1032,13 +1056,255 @@
                 var sn = document.querySelectorAll('#sketch-grid .sketch-item').length;
                 var bn = document.querySelectorAll('#blog-grid-container .blog-item').length;
                 if (pc) pc.textContent = pn > 0 ? String(pn).padStart(2,'0') : '—';
-                if (sc) sc.textContent = sn > 0 ? String(sn).padStart(2,'0') : '—';
                 if (bc) bc.textContent = bn > 0 ? String(bn).padStart(2,'0') : '—';
             }
 
-            // ---- Init ----
-            attachSketchHandlers();
+            // ---- Render helpers ----
+            function renderProjects(projects) {
+                var grid = document.getElementById('public-grid');
+                if (!grid) return;
+                grid.innerHTML = '';
+                (projects || []).forEach(function(p) {
+                    var card = document.createElement('div');
+                    card.className = 'project-card';
+                    card.innerHTML =
+                        '<div class="card-thumb-wrap">' +
+                            '<img class="card-thumb" src="' + (p.thumb || 'https://via.placeholder.com/400x300') + '" alt="' + (p.title || '') + '">' +
+                        '</div>' +
+                        '<div class="card-tag">' + (p.tag || '') + '</div>' +
+                        '<div class="card-title">' + (p.title || 'Projeto') + '<span class="card-arrow">→</span></div>';
+                    if (p.id) card.onclick = function() { openItem(p.id); };
+                    grid.appendChild(card);
+                });
+                updateCounts();
+            }
+
+            function renderSketches(sketches) {
+                var grid = document.getElementById('sketch-grid');
+                if (!grid) return;
+                grid.innerHTML = '';
+                (sketches || []).forEach(function(s) {
+                    var item = document.createElement('div');
+                    item.className = 'sketch-item';
+                    var img = document.createElement('img');
+                    img.src = s.src || 'https://via.placeholder.com/200x200';
+                    img.alt = s.alt || '';
+                    item.appendChild(img);
+                    grid.appendChild(item);
+                });
+                attachSketchHandlers();
+                updateCounts();
+            }
+
+            function renderBlog(posts) {
+                var grid = document.getElementById('blog-grid-container');
+                if (!grid) return;
+                grid.innerHTML = '';
+                (posts || []).forEach(function(p) {
+                    var item = document.createElement('div');
+                    item.className = 'blog-item';
+                    item.innerHTML =
+                        '<span class="blog-date">' + (p.date || '') + '</span>' +
+                        (p.thumb ? '<img class="blog-thumb" src="' + p.thumb + '" alt="">' : '') +
+                        '<div class="blog-title">' + (p.title || '') + '</div>' +
+                        '<div class="blog-excerpt">' + (p.excerpt || '') + '</div>';
+                    if (p.id) item.onclick = function() { previousView = 'blog'; openItem(p.id); };
+                    grid.appendChild(item);
+                });
+                updateCounts();
+            }
+
+            function renderGallery(items) {
+                var container = document.getElementById('art-gallery-container');
+                if (!container) return;
+                container.innerHTML = '';
+                (items || []).forEach(function(a) {
+                    var div = document.createElement('div');
+                    div.className = 'art-item';
+                    div.innerHTML =
+                        '<img class="art-img" src="' + (a.src || 'https://via.placeholder.com/400x500') + '" alt="' + (a.caption || '') + '" onclick="openLightbox(this.src)" style="cursor:zoom-in">' +
+                        '<div class="art-caption">' + (a.caption || '') + '</div>';
+                    container.appendChild(div);
+                });
+            }
+
+            // ---- Apply full data payload ----
+            function applyData(data) {
+                if (!data) return;
+                if (data.projects) renderProjects(data.projects);
+                if (data.sketches) renderSketches(data.sketches);
+                if (data.blog)     renderBlog(data.blog);
+                if (data.gallery)  renderGallery(data.gallery);
+            }
+
+            // ---- Collect current DOM data ----
+            function collectData() {
+                var projects = [];
+                document.querySelectorAll('#public-grid .project-card').forEach(function(c) {
+                    projects.push({
+                        title: (c.querySelector('.card-title') ? c.querySelector('.card-title').textContent.replace('→','').trim() : ''),
+                        tag:   (c.querySelector('.card-tag')   ? c.querySelector('.card-tag').textContent.trim() : ''),
+                        thumb: (c.querySelector('.card-thumb') ? c.querySelector('.card-thumb').src : ''),
+                        id:    (c.getAttribute('data-id') || '')
+                    });
+                });
+                var sketches = [];
+                document.querySelectorAll('#sketch-grid .sketch-item img').forEach(function(img) {
+                    sketches.push({ src: img.src, alt: img.alt });
+                });
+                var blog = [];
+                document.querySelectorAll('#blog-grid-container .blog-item').forEach(function(b) {
+                    blog.push({
+                        title:   (b.querySelector('.blog-title')   ? b.querySelector('.blog-title').textContent.trim() : ''),
+                        date:    (b.querySelector('.blog-date')    ? b.querySelector('.blog-date').textContent.trim() : ''),
+                        excerpt: (b.querySelector('.blog-excerpt') ? b.querySelector('.blog-excerpt').textContent.trim() : ''),
+                        thumb:   (b.querySelector('.blog-thumb')   ? b.querySelector('.blog-thumb').src : '')
+                    });
+                });
+                var gallery = [];
+                document.querySelectorAll('#art-gallery-container .art-item').forEach(function(a) {
+                    gallery.push({
+                        src:     (a.querySelector('.art-img')     ? a.querySelector('.art-img').src : ''),
+                        caption: (a.querySelector('.art-caption') ? a.querySelector('.art-caption').textContent.trim() : '')
+                    });
+                });
+                return { projects: projects, sketches: sketches, blog: blog, gallery: gallery, updatedAt: new Date().toISOString() };
+            }
+
+            // ======================================================
+            // FIREBASE SYNC
+            // ======================================================
+            var FB_CFG = {
+                apiKey:            "AIzaSyBJ-CK1s_ySQqvM98sJbi15SejsIoicVvo",
+                authDomain:        "webapps-cbefa.firebaseapp.com",
+                projectId:         "webapps-cbefa",
+                storageBucket:     "webapps-cbefa.firebasestorage.app",
+                messagingSenderId: "817788828725",
+                appId:             "1:817788828725:web:612f5d62662b88274d457c"
+            };
+            var FB_DOC_URL = 'https://firestore.googleapis.com/v1/projects/' + FB_CFG.projectId + '/databases/(default)/documents/portfolio/content';
+
+            function fbStatus(msg, color) {
+                var el = document.getElementById('fb-status');
+                if (el) { el.textContent = msg; el.style.borderLeftColor = color || 'var(--rule)'; }
+            }
+
+            function toFirestoreValue(val) {
+                if (val === null || val === undefined) return { nullValue: null };
+                if (typeof val === 'boolean')          return { booleanValue: val };
+                if (typeof val === 'number')           return { doubleValue: val };
+                if (typeof val === 'string')           return { stringValue: val };
+                if (Array.isArray(val))                return { arrayValue: { values: val.map(toFirestoreValue) } };
+                if (typeof val === 'object') {
+                    var fields = {};
+                    Object.keys(val).forEach(function(k) { fields[k] = toFirestoreValue(val[k]); });
+                    return { mapValue: { fields: fields } };
+                }
+                return { stringValue: String(val) };
+            }
+
+            function fromFirestoreValue(fv) {
+                if (!fv) return null;
+                if ('stringValue'  in fv) return fv.stringValue;
+                if ('booleanValue' in fv) return fv.booleanValue;
+                if ('integerValue' in fv) return Number(fv.integerValue);
+                if ('doubleValue'  in fv) return fv.doubleValue;
+                if ('nullValue'    in fv) return null;
+                if ('arrayValue'   in fv) return (fv.arrayValue.values || []).map(fromFirestoreValue);
+                if ('mapValue'     in fv) {
+                    var obj = {};
+                    var fields = fv.mapValue.fields || {};
+                    Object.keys(fields).forEach(function(k) { obj[k] = fromFirestoreValue(fields[k]); });
+                    return obj;
+                }
+                return null;
+            }
+
+            function fromFirestoreDoc(doc) {
+                var fields = doc.fields || {};
+                var result = {};
+                Object.keys(fields).forEach(function(k) { result[k] = fromFirestoreValue(fields[k]); });
+                return result;
+            }
+
+            window.fbLoad = function() {
+                fbStatus('Carregando do Firebase…', 'var(--accent2)');
+                fetch(FB_DOC_URL + '?key=' + FB_CFG.apiKey)
+                    .then(function(r) {
+                        if (!r.ok) throw new Error('HTTP ' + r.status);
+                        return r.json();
+                    })
+                    .then(function(doc) {
+                        var data = fromFirestoreDoc(doc);
+                        applyData(data);
+                        fbStatus('✓ Dados carregados com sucesso!\nAtualizado em: ' + (data.updatedAt || '—'), '#2D7A2D');
+                    })
+                    .catch(function(err) {
+                        fbStatus('✗ Erro ao carregar: ' + err.message + '\n\nVerifique as regras do Firestore.', 'var(--accent)');
+                    });
+            };
+
+            window.fbSave = function() {
+                fbStatus('Salvando no Firebase…', 'var(--accent2)');
+                var data = collectData();
+                var fields = {};
+                Object.keys(data).forEach(function(k) { fields[k] = toFirestoreValue(data[k]); });
+                fetch(FB_DOC_URL + '?key=' + FB_CFG.apiKey, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fields: fields })
+                })
+                .then(function(r) {
+                    if (!r.ok) return r.json().then(function(e) { throw new Error(e.error ? e.error.message : 'HTTP ' + r.status); });
+                    return r.json();
+                })
+                .then(function() {
+                    fbStatus('✓ Salvo com sucesso!\n' + new Date().toLocaleString('pt-BR'), '#2D7A2D');
+                })
+                .catch(function(err) {
+                    fbStatus('✗ Erro ao salvar: ' + err.message + '\n\nVerifique as regras do Firestore (escrever permitido?)', 'var(--accent)');
+                });
+            };
+
+            window.fbAutoLoad = function() {
+                fbStatus('Recarregando…', 'var(--ink-pale)');
+                localStorage.setItem('fb_autoload', '1');
+                location.reload();
+            };
+
+            window.openFbModal  = function() { document.getElementById('fb-sync-modal').style.display = 'flex'; };
+            window.closeFbModal = function() { document.getElementById('fb-sync-modal').style.display = 'none'; };
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeFbModal();
+            });
+            document.getElementById('fb-sync-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeFbModal();
+            });
+
+            // Auto-load on page start if flag set
+            if (localStorage.getItem('fb_autoload') === '1') {
+                localStorage.removeItem('fb_autoload');
+                fbLoad();
+            }
+
+            // Init page
             updateCounts();
             goHome();
+
         })();
-            </script></body></html>
+    </script>
+
+    <!-- Firebase Sync Button (fixed corner) -->
+    <div style="position:fixed;bottom:24px;right:24px;z-index:9500;">
+        <button onclick="openFbModal()" title="Firebase Sync" style="width:48px;height:48px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.3);transition:all 0.2s;" onmouseover="this.style.background='#E88D00'" onmouseout="this.style.background='var(--ink)'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+        </button>
+    </div>
+
+</body>
+</html>
