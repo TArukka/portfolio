@@ -183,6 +183,7 @@
       .detail-images-grid.cols-2,.detail-images-grid.cols-3{grid-template-columns:1fr;}
     }
   </style>
+  <!-- __BAKED_DATA__ -->
 </head>
 <body class="lang-pt">
 
@@ -381,6 +382,17 @@
   }
 
   window.fbLoad = function() {
+    // Check for baked-in data (git/static export)
+    if (window.__PORTFOLIO_DATA__) {
+      var loaded = window.__PORTFOLIO_DATA__;
+      if (loaded.projects) APP.data.projects = loaded.projects;
+      if (loaded.blog)     APP.data.blog     = loaded.blog;
+      if (loaded.gallery)  APP.data.gallery  = loaded.gallery;
+      if (loaded.sketches) APP.data.sketches = loaded.sketches;
+      if (loaded.meta)     APP.data.meta     = Object.assign({}, APP.data.meta, loaded.meta);
+      renderAll();
+      return;
+    }
     setSyncStatus('Loading…', '#aaa');
     setFabLoading(true);
     fetch(FB.url())
