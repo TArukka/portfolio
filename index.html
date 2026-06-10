@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lucca Tuelher | Portfolio</title>
+  <!-- SEO + compartilhamento (ajuste a URL quando publicar) -->
+  <meta name="description" content="Lucca Tuelher — storyboard artist e visual storyteller. Storyboards, animatics e desenvolvimento visual para animação e publicidade.">
+  <meta name="author" content="Lucca Tuelher">
+  <meta name="theme-color" content="#F2EFE8">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lucca Tuelher | Storyboard Artist">
+  <meta property="og:description" content="Storyboards, animatics e desenvolvimento visual para animação e publicidade.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231C1B18'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23F2EFE8' text-anchor='middle'%3ELT%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
@@ -160,6 +170,13 @@
     #lightbox{position:fixed;inset:0;background:rgba(28,27,24,.97);z-index:8000;display:none;justify-content:center;align-items:center;cursor:zoom-out;}
     #lightbox.open{display:flex;}
     #lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;}
+    .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(250,250,247,.25);color:var(--white);font-family:var(--mono);font-size:1.1rem;width:44px;height:44px;border-radius:50%;cursor:pointer;transition:all .2s;display:none;z-index:1;}
+    .lb-nav:hover{border-color:var(--white);background:rgba(250,250,247,.08);}
+    #lightbox.has-nav .lb-nav{display:block;}
+    #lb-prev{left:24px;}
+    #lb-next{right:24px;}
+    #lb-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:rgba(250,250,247,.6);}
+    @media(max-width:600px){#lb-prev{left:8px;}#lb-next{right:8px;}.lb-nav{width:38px;height:38px;}}
 
     /* Fade */
     .fade-in{animation:fadeUp .4s var(--ease-out) both;}
@@ -184,12 +201,33 @@
     }
   </style>
   <!-- __BAKED_DATA__ -->
+  <!--
+    Revisão Claude (jun/2026)
+    • FIX: o arquivo estava TRUNCADO — faltava esc(), a chamada do fbLoad(),
+      o fechamento do script e do HTML. Nada funcionava. Final reconstruído.
+    • FIX: removido script da Cloudflare (/cdn-cgi/) que só existe no hosting
+      deles — e-mail de contato virou mailto simples (TROQUE o placeholder!)
+    • FIX: via.placeholder.com (serviço morto) → placeholder SVG inline
+    • FIX: id de embed sanitizado antes de entrar no src do iframe
+    • NEW: deep links com hash (#project/ID, #note/ID, #gallery, #notes,
+      #contact) + suporte a voltar/avançar do navegador + título por página
+    • NEW: lightbox com navegação ←/→ (teclado e botões) e contador
+    • NEW: meta tags SEO/OpenGraph + favicon inline + lazy loading de imagens
+    • NEW: idioma escolhido persiste entre visitas
+    ⚠ SEGURANÇA: fbSave() faz PATCH no Firestore SEM autenticação. Se as
+      rules permitirem escrita pública, qualquer visitante pode sobrescrever
+      seu portfolio. Configure: allow read: if true; allow write: if false;
+      (e salve conteúdo por uma página admin autenticada, ou use dados baked).
+  -->
 </head>
 <body class="lang-pt">
 
 <!-- LIGHTBOX -->
 <div id="lightbox" onclick="closeLightbox()">
+  <button id="lb-prev" class="lb-nav" onclick="lbNav(-1,event)" aria-label="Anterior">←</button>
   <img id="lightbox-img" src="" alt="">
+  <button id="lb-next" class="lb-nav" onclick="lbNav(1,event)" aria-label="Próxima">→</button>
+  <span id="lb-counter"></span>
 </div>
 
 
@@ -293,7 +331,7 @@
       <div class="contact-h1 en-only">Let's<br>work<br>together.</div>
       <div class="contact-body pt-only">Disponível para projetos freelance em storyboard, animação e desenvolvimento visual.</div>
       <div class="contact-body en-only">Available for freelance projects in storyboard, animation, and visual development.</div>
-      <a href="/cdn-cgi/l/email-protection#88e4fdebebe9c8edf0e9e5f8e4eda6ebe7e5" class="contact-email"><span class="__cf_email__" data-cfemail="8ae6ffe9e9ebcaeff2ebe7fae6efa4e9e5e7">[email&#160;protected]</span></a>
+      <a href="mailto:lucca@example.com" class="contact-email">lucca@example.com</a><!-- TODO: troque pelo seu e-mail real -->
       <div style="margin-top:32px;">
         <a href="cv.pdf" class="btn-cv" target="_blank">
           <span class="pt-only">Baixar CV</span><span class="en-only">Download CV</span>
@@ -306,12 +344,12 @@
       </div>
     </div>
     <div class="contact-right">
-      <img src="https://via.placeholder.com/400x533" class="contact-img" alt="Foto">
+      <img src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E" class="contact-img" alt="Foto">
     </div>
   </div>
 </div><!-- /container -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function() {
   'use strict';
 
@@ -467,6 +505,7 @@
   window.setLang = function(lang) {
     APP.currentLang = lang;
     document.body.className = 'lang-' + lang;
+    try { localStorage.setItem('portfolio_lang', lang); } catch (e) {}
   };
 
   // ============================================================
@@ -495,10 +534,14 @@
     if (nk) { var n = document.getElementById('nav-' + nk); if(n) n.classList.add('active'); }
   }
 
-  window.goHome    = function() { showView('home');    APP.previousView = 'home'; };
-  window.goBlog    = function() { showView('blog');    APP.previousView = 'blog'; };
-  window.goGallery = function() { showView('gallery'); APP.previousView = 'gallery'; };
-  window.goToContact = function() { showView('contact'); };
+  // Rotas com hash: permite linkar direto pra um projeto/nota e usar voltar/avançar
+  function pushRoute(h) { if (('#' + h) !== location.hash) history.pushState(null, '', '#' + h); }
+  function setTitle(t)  { document.title = t ? t + ' — Lucca Tuelher' : 'Lucca Tuelher | Portfolio'; }
+
+  window.goHome    = function() { pushRoute('work');    showView('home');    APP.previousView = 'home';    setTitle(''); };
+  window.goBlog    = function() { pushRoute('notes');   showView('blog');    APP.previousView = 'blog';    setTitle(APP.currentLang === 'en' ? 'Notes' : 'Notas'); };
+  window.goGallery = function() { pushRoute('gallery'); showView('gallery'); APP.previousView = 'gallery'; setTitle(APP.currentLang === 'en' ? 'Gallery' : 'Galeria'); };
+  window.goToContact = function() { pushRoute('contact'); showView('contact'); setTitle(APP.currentLang === 'en' ? 'Contact' : 'Contato'); };
   window.goBack    = function() {
     if (APP.previousView === 'blog') goBlog();
     else if (APP.previousView === 'gallery') goGallery();
@@ -510,12 +553,13 @@
   // ============================================================
   function buildEmbedIframe(embed) {
     if (!embed || !embed.type || !embed.id) return '';
+    var id = encodeURIComponent(String(embed.id));
     var src = '';
-    if (embed.type === 'youtube')     src = 'https://www.youtube.com/embed/' + embed.id + '?rel=0';
-    if (embed.type === 'vimeo')       src = 'https://player.vimeo.com/video/' + embed.id + '?color=C1440E&title=0&byline=0';
-    if (embed.type === 'speakerdeck') src = 'https://speakerdeck.com/player/' + embed.id;
+    if (embed.type === 'youtube')     src = 'https://www.youtube.com/embed/' + id + '?rel=0';
+    if (embed.type === 'vimeo')       src = 'https://player.vimeo.com/video/' + id + '?color=C1440E&title=0&byline=0';
+    if (embed.type === 'speakerdeck') src = 'https://speakerdeck.com/player/' + id;
     if (!src) return '';
-    return '<div class="embed-area"><iframe src="' + src + '" allowfullscreen allow="autoplay; fullscreen"></iframe></div>';
+    return '<div class="embed-area"><iframe src="' + src + '" loading="lazy" allowfullscreen allow="autoplay; fullscreen"></iframe></div>';
   }
 
   // ============================================================
@@ -556,7 +600,7 @@
       card.className = 'project-card';
       card.innerHTML =
         '<div class="card-thumb-wrap">' +
-          '<img class="card-thumb" src="' + (p.thumb || 'https://via.placeholder.com/400x300') + '" alt="' + esc(p.title||'') + '" onerror="this.src=\'https://via.placeholder.com/400x300\'">' +
+          '<img class="card-thumb" src="' + (p.thumb || 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E') + '" alt="' + esc(p.title||'') + '" loading="lazy" decoding="async" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E\'">' +
         '</div>' +
         '<div class="card-tag">' + esc(p.tag||'') + '</div>' +
         '<div class="card-title">' + esc(p.title||'Sem título') + '<span class="card-arrow">→</span></div>';
@@ -573,10 +617,11 @@
       var item = document.createElement('div');
       item.className = 'sketch-item';
       var img = document.createElement('img');
-      img.src = s.src || 'https://via.placeholder.com/200x200';
+      img.loading = 'lazy'; img.decoding = 'async';
+      img.src = s.src || 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E';
       img.alt = s.alt || '';
-      img.onerror = function(){ this.src='https://via.placeholder.com/200x200'; };
-      img.onclick = function() { openLightbox(img.src); };
+      img.onerror = function(){ this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E'; };
+      img.onclick = function() { openLightbox(img.src, (APP.data.sketches||[]).map(function(x){ return x.src; }).filter(Boolean)); };
       item.appendChild(img);
       grid.appendChild(item);
     });
@@ -593,7 +638,7 @@
       item.className = 'blog-item';
       item.innerHTML =
         '<span class="blog-date">' + esc(p.date||'') + '</span>' +
-        (p.thumb ? '<img class="blog-thumb" src="' + esc(p.thumb) + '" alt="" onerror="this.style.display=\'none\'">' : '') +
+        (p.thumb ? '<img class="blog-thumb" src="' + esc(p.thumb) + '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">' : '') +
         '<div class="blog-title">' + esc(p.title||'Sem título') + '</div>' +
         '<div class="blog-excerpt">' + esc(p.excerpt||'') + '</div>';
       item.onclick = function() { APP.previousView = 'blog'; openDetail(p.id, 'blog'); };
@@ -609,9 +654,9 @@
       var div = document.createElement('div');
       div.className = 'art-item';
       div.innerHTML =
-        '<img class="art-img" src="' + esc(a.src||'https://via.placeholder.com/400x500') + '" alt="' + esc(a.caption||'') + '" onerror="this.src=\'https://via.placeholder.com/400x500\'">' +
+        '<img class="art-img" src="' + esc(a.src||'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E') + '" alt="' + esc(a.caption||'') + '" loading="lazy" decoding="async" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E\'">' +
         '<div class="art-caption">' + esc(a.caption||'') + '</div>';
-      div.querySelector('.art-img').onclick = function() { openLightbox(a.src); };
+      div.querySelector('.art-img').onclick = function() { openLightbox(a.src, (APP.data.gallery||[]).map(function(x){ return x.src; }).filter(Boolean)); };
       container.appendChild(div);
     });
   }
@@ -631,18 +676,22 @@
   // ============================================================
   // DETAIL VIEW (project or blog post, fully data-driven)
   // ============================================================
-  function openDetail(id, type) {
+  function openDetail(id, type, fromRoute) {
     var item = null;
-    if (type === 'project') item = (APP.data.projects||[]).find(function(p){ return p.id === id; });
-    if (type === 'blog')    item = (APP.data.blog||[]).find(function(p){ return p.id === id; });
+    if (type === 'project') item = (APP.data.projects||[]).find(function(p){ return String(p.id) === String(id); });
+    if (type === 'blog')    item = (APP.data.blog||[]).find(function(p){ return String(p.id) === String(id); });
     if (!item) return;
+
+    if (!fromRoute) pushRoute((type === 'blog' ? 'note/' : 'project/') + id);
+    setTitle(item.title || '');
 
     var contentDiv = document.getElementById('detail-content');
     contentDiv.innerHTML = buildDetailHTML(item, type);
 
     // Attach lightbox to detail images
+    var detailImgs = Array.prototype.map.call(contentDiv.querySelectorAll('.detail-img'), function(i){ return i.src; });
     contentDiv.querySelectorAll('.detail-img').forEach(function(img) {
-      img.onclick = function() { openLightbox(img.src); };
+      img.onclick = function() { openLightbox(img.src, detailImgs); };
     });
 
     resetViews();
@@ -686,7 +735,7 @@
       var cols = imgs.length === 1 ? 'cols-1' : imgs.length === 2 ? 'cols-2' : 'cols-3';
       html += '<div class="detail-images"><div class="detail-images-grid ' + cols + '">';
       imgs.forEach(function(src) {
-        html += '<img class="detail-img" src="' + esc(src) + '" alt="" onerror="this.src=\'https://via.placeholder.com/800x600\'">';
+        html += '<img class="detail-img" src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 400 300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%23E8E4DB%27/%3E%3Ctext x=%27200%27 y=%27158%27 font-family=%27monospace%27 font-size=%2713%27 fill=%27%23A09C93%27 text-anchor=%27middle%27%3Esem imagem%3C/text%3E%3C/svg%3E\'">';
       });
       html += '</div></div>';
     }
@@ -700,17 +749,41 @@
   }
 
   // ============================================================
-  // LIGHTBOX
+  // LIGHTBOX (com navegação entre imagens da mesma lista)
   // ============================================================
-  window.openLightbox = function(src) {
-    document.getElementById('lightbox-img').src = src;
+  var _lb = { list: [], idx: 0 };
+  function _lbShow() {
+    document.getElementById('lightbox-img').src = _lb.list[_lb.idx];
+    var box = document.getElementById('lightbox');
+    var counter = document.getElementById('lb-counter');
+    if (_lb.list.length > 1) {
+      box.classList.add('has-nav');
+      counter.textContent = (_lb.idx + 1) + ' / ' + _lb.list.length;
+    } else {
+      box.classList.remove('has-nav');
+      counter.textContent = '';
+    }
+  }
+  window.openLightbox = function(src, list) {
+    _lb.list = (list && list.length) ? list : [src];
+    _lb.idx  = Math.max(0, _lb.list.indexOf(src));
+    _lbShow();
     document.getElementById('lightbox').classList.add('open');
+  };
+  window.lbNav = function(dir, e) {
+    if (e) e.stopPropagation();
+    if (_lb.list.length < 2) return;
+    _lb.idx = (_lb.idx + dir + _lb.list.length) % _lb.list.length;
+    _lbShow();
   };
   window.closeLightbox = function() {
     document.getElementById('lightbox').classList.remove('open');
   };
   document.addEventListener('keydown', function(e) {
+    var open = document.getElementById('lightbox').classList.contains('open');
     if (e.key === 'Escape') closeLightbox();
+    if (open && e.key === 'ArrowLeft')  lbNav(-1);
+    if (open && e.key === 'ArrowRight') lbNav(1);
   });
 
 
@@ -720,4 +793,58 @@
   var dateEl = document.getElementById('issue-date');
   if (dateEl) dateEl.textContent = new Date().toLocaleDateString('pt-BR', { year:'numeric', month:'long' });
 
-  // ===========================
+  // ============================================================
+  // HELPERS (reconstruído — o arquivo original estava truncado aqui)
+  // ============================================================
+  function esc(s) {
+    return s == null ? '' : String(s).replace(/[&<>"']/g, function(c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+
+  // ============================================================
+  // ROTEAMENTO POR HASH — deep links pra projetos, notas e seções
+  // #work · #gallery · #notes · #contact · #project/ID · #note/ID
+  // ============================================================
+  function applyRoute() {
+    var h = (location.hash || '').replace(/^#/, '');
+    if (!h || h === 'work')  { showView('home');    APP.previousView = 'home';    setTitle(''); return; }
+    if (h === 'gallery')     { showView('gallery'); APP.previousView = 'gallery'; setTitle(APP.currentLang === 'en' ? 'Gallery' : 'Galeria'); return; }
+    if (h === 'notes')       { showView('blog');    APP.previousView = 'blog';    setTitle(APP.currentLang === 'en' ? 'Notes' : 'Notas'); return; }
+    if (h === 'contact')     { showView('contact'); setTitle(APP.currentLang === 'en' ? 'Contact' : 'Contato'); return; }
+    var m = h.match(/^(project|note)\/(.+)$/);
+    if (m) {
+      var type = m[1] === 'note' ? 'blog' : 'project';
+      var list = type === 'blog' ? APP.data.blog : APP.data.projects;
+      var exists = (list || []).some(function(p) { return String(p.id) === String(m[2]); });
+      if (exists) {
+        APP.previousView = type === 'blog' ? 'blog' : 'home';
+        openDetail(m[2], type, true);
+        return;
+      }
+      // Dados ainda não carregaram (rota será reaplicada após o fbLoad) — segura na home
+      showView('home');
+      return;
+    }
+    showView('home');
+  }
+  window.addEventListener('popstate', applyRoute);
+
+  // Reaplica a rota depois que os dados chegam (resolve deep links de detalhe)
+  var _renderAllOrig = renderAll;
+  renderAll = function() { _renderAllOrig(); applyRoute(); };
+
+  // ============================================================
+  // BOOT
+  // ============================================================
+  var savedLang = null;
+  try { savedLang = localStorage.getItem('portfolio_lang'); } catch (e) {}
+  if (savedLang === 'en' || savedLang === 'pt') setLang(savedLang);
+
+  applyRoute();
+  fbLoad();
+
+})();
+</script>
+</body>
+</html>
